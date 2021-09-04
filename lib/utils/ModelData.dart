@@ -361,7 +361,7 @@ class Model {
         images:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmBftU3zSjJ_eWELqViivHwPo_hZBd5XYjCw&usqp=CAU",
         pname: " Mixer",
-        name: " A-One Collection",
+        name: "A-One Collection",
         desc:
         "Description: The definition of a description is a statement that gives details about someone or something. ",
         rating: "3.4",

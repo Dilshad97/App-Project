@@ -9,6 +9,10 @@ class Sign extends StatefulWidget {
 }
 
 class _SignState extends State<Sign> {
+
+   String ?_chosenValue,dropdownValue;
+
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -64,55 +68,81 @@ class _SignState extends State<Sign> {
                           Padding(
                             padding: const EdgeInsets.only(
                                 top: 10, left: 50, right: 50, bottom: 20),
-                            child: TextFormField(
-                              keyboardType: TextInputType.phone,
-                              textAlign: TextAlign.center,
-                              decoration: InputDecoration(
-                                fillColor: Colors.white,
-                                hintText: "Enter Your Cell Number",
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(50),
-                                    borderSide:
-                                        BorderSide(color: Colors.black12)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(50),
-                                    borderSide:
-                                        BorderSide(color: Colors.black12)),
-                                contentPadding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              height: 48,width: 250,
+                              child: TextFormField(
+                                keyboardType: TextInputType.phone,
+                                textAlign: TextAlign.center,
+                                decoration: InputDecoration(
+                                  prefixIcon:
+                                  DropdownButton<String>(
+                                    value: dropdownValue,
+                                    // style: const TextStyle(color: Colors.blue),
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        dropdownValue = newValue!;
+                                      });
+                                    },
+                                    items: <String>["+91",'+02']
+                                        .map<DropdownMenuItem<String>>((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value,style: TextStyle(color: Colors.blue),),
+                                      );
+                                    }).toList(),
+                                  ),
+
+                                  fillColor: Colors.white,
+                                  hintText: "Enter Your Cell Number +",
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(50),
+                                      borderSide:
+                                          BorderSide(color: Colors.black12)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(50),
+                                      borderSide:
+                                          BorderSide(color: Colors.black12)),
+                                  contentPadding: const EdgeInsets.all(8.0),
+                                ),
+                                validator: (value) {
+                                  if (value!.length == 10) {
+                                    return null;
+                                  }
+                                },
                               ),
-                              validator: (value) {
-                                if (value!.length == 10) {
-                                  return null;
-                                }
-                              },
                             ),
                           ),
                           Text("OR"),
                           Divider(
                             thickness: 1,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 10, left: 50, right: 50),
-                            child: TextFormField(
-                              textAlign: TextAlign.center,
-                              decoration: InputDecoration(
-                                fillColor: Colors.white,
-                                hintText: "Enter Your Email",
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(50),
-                                    borderSide:
-                                        BorderSide(color: Colors.black12)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(50),
-                                    borderSide:
-                                        BorderSide(color: Colors.black12)),
-                                contentPadding: const EdgeInsets.all(8.0),
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 10, left: 50, right: 50),
+                                child: TextFormField(
+                                  textAlign: TextAlign.center,
+                                  decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.email),
+                                    fillColor: Colors.white,
+                                    hintText: "Enter Your Email",
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(50),
+                                        borderSide:
+                                            BorderSide(color: Colors.black12)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(50),
+                                        borderSide:
+                                            BorderSide(color: Colors.black12)),
+                                    contentPadding: const EdgeInsets.all(8.0),
+                                  ),
+                                  validator: (input) => input!.ValidEmail()
+                                      ? null
+                                      : "Please enter valid email address",
+                                ),
                               ),
-                              validator: (input) => input!.ValidEmail()
-                                  ? null
-                                  : "Please enter valid email address",
-                            ),
+                            ],
                           ),
                           SizedBox(
                             height: 20,

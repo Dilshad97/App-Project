@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pervezbhai/Dashbord/Home_Page.dart';
 import 'package:pervezbhai/Dashbord/account.dart';
+import 'package:pervezbhai/auth/login.dart';
 import 'package:share/share.dart';
 
 
@@ -101,6 +102,16 @@ class _DrawerFUnState extends State<DrawerFUn> {
                 onTap: () {
                   Share.share('check out my website https://example.com',
                       subject: 'Look what I made!');
+                },
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.logout,
+                  color: Colors.black,
+                ),
+                title: Text("Logout"),
+                onTap: () {
+                 Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()));
                 },
               ),
 

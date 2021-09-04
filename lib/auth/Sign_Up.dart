@@ -13,6 +13,24 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
 
+
+  bool _loading = false;
+
+  void _onLoading() {
+    setState(() {
+      _loading = true;
+      new Future.delayed(new Duration(seconds: 3), _login);
+    });
+  }
+
+  Future _login() async {
+    setState(() {
+      _loading = false;
+    });
+  }
+
+
+
   final _FormKey= GlobalKey<FormState>();
 
   // ScrollController _ctr =ScrollController();
@@ -148,8 +166,9 @@ class _SignUpState extends State<SignUp> {
                           ),
                           InkWell(
                             onTap: () {
+                              _onLoading();
                              setState(() {
-                               if (_FormKey.currentState!.validate())
+                               // if (_FormKey.currentState!.validate())
                                {
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
                               }
