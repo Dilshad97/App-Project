@@ -64,14 +64,12 @@ class _HomeState extends State<Home> {
                 },
               ),
               actions: [
-                new IconButton(
-                  icon: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.asset(
-                        "assets/images/smiley-dp.jpg",
-                        fit: BoxFit.cover,
-                      )),
-                  onPressed: () => _scaffoldKey.currentState!.openEndDrawer(),
+                Padding(
+            padding: EdgeInsets.only(right: 10),
+                  child: new IconButton(
+                    icon: Icon(Icons.account_circle,size: 50,),
+                    onPressed: () => _scaffoldKey.currentState!.openEndDrawer(),
+                  ),
                 ),
               ],
               //leading: Icon(Icons.person),

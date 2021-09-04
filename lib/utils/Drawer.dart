@@ -24,17 +24,22 @@ class _DrawerFUnState extends State<DrawerFUn> {
           child: ListView(
 
             children: [
-              UserAccountsDrawerHeader(
+              InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Account()));
+                },
+                child: UserAccountsDrawerHeader(
 
-                decoration: BoxDecoration(
-                  color: Color(0xFFE23030),
-                ),
-                accountName: Text("Dilshad Alam"),
-                accountEmail: Text("rayeendilshan@gmail.com"),
-                currentAccountPicture: CircleAvatar(
-                  child: Text(
-                    "D",
-                    style: TextStyle(fontSize: 40),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFE23030),
+                  ),
+                  accountName: Text("Your Name"),
+                  accountEmail: Text("example@gmail.com"),
+                  currentAccountPicture: CircleAvatar(
+                    child: Text(
+                      "D",
+                      style: TextStyle(fontSize: 40),
+                    ),
                   ),
                 ),
               ),
