@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pervezbhai/Dashbord/Home_Page.dart';
-import 'package:pervezbhai/Dashbord/track.dart';
+import 'package:pervezbhai/Screen/Home_Page.dart';
+import 'package:pervezbhai/Screen/track.dart';
 
-import '../Dashbord/account.dart';
-import '../Dashbord/cart.dart';
+import '../Screen/account.dart';
+import '../Screen/cart.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);

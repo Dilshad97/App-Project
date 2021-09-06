@@ -2,10 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:pervezbhai/utils/ModelData.dart';
-
-import '../utils/Drawer.dart';
-import '../utils/Slider.dart';
+import 'package:pervezbhai/widget/Drawer.dart';
+import 'package:pervezbhai/Model/ModelData.dart';
+import 'package:pervezbhai/widget/Slider.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

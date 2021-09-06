@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pervezbhai/auth/Sign_Up.dart';
 
 class Otp extends StatefulWidget {
   const Otp({Key? key}) : super(key: key);
@@ -67,8 +66,10 @@ class _OtpState extends State<Otp> {
                               child: Form(
                                 key: _FormKey,
                                 child: TextFormField(
+                                  keyboardType: TextInputType.phone,
                                   textAlign: TextAlign.center,
                                   decoration: InputDecoration(
+
                                     fillColor: Colors.white,
                                     hintText: "Enter Your Cell Number",
                                     enabledBorder: OutlineInputBorder(
@@ -83,9 +84,14 @@ class _OtpState extends State<Otp> {
                                     ),
                                     contentPadding: const EdgeInsets.all(8.0),
                                   ),
-                                  validator: (value) {
-                                    if (value!.isEmpty)
-                                      return " Phone Number Should not be blank";
+
+                                  validator:  (value) {
+                                    if (value!.isEmpty) {
+                                      return "Cell Number should not be blank";
+                                    }
+                                    else if (value.length >10 ){
+                                      return "Please Enter Phone Number Lessthen 10 or 10";
+                                    }
                                   },
                                 ),
                               ),

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../Dashbord/Home_Page.dart';
+import '../Screen/Home_Page.dart';
 import 'login.dart';
 
 class SignUp extends StatefulWidget {
@@ -143,7 +143,7 @@ class _SignUpState extends State<SignUp> {
                                   if (value!.isEmpty) {
                                     return "Please Enter Phone Number";
                                   }
-                                  else if (value.length >10 ){
+                                  else if (value.length <10 ){
                                     return "Please Enter Phone Number Lessthen 10 or 10";
                                   }
                                 }
@@ -168,7 +168,7 @@ class _SignUpState extends State<SignUp> {
                             onTap: () {
                               _onLoading();
                              setState(() {
-                               // if (_FormKey.currentState!.validate())
+                               if (_FormKey.currentState!.validate())
                                {
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
                               }
@@ -261,3 +261,5 @@ class _SignUpState extends State<SignUp> {
     ));
   }
 }
+
+

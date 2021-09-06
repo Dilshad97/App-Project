@@ -9,10 +9,7 @@ class Sign extends StatefulWidget {
 }
 
 class _SignState extends State<Sign> {
-
-   String ?_chosenValue,dropdownValue;
-
-
+  String dropdownValue = '+91';
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -21,18 +18,9 @@ class _SignState extends State<Sign> {
         child: Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFFE23030),
-        // leading: IconButton(
-        //   icon: Icon(Icons.arrow_back),
-        //   onPressed: () {
-        //     Navigator.pop(context);
-        //   },
-        // ),
       ),
       body: SingleChildScrollView(
         child: Container(
-          // width: MediaQuery.of(context).size.width,
-          // height: MediaQuery.of(context).size.height,
-          //padding: EdgeInsets.only(top: 100),
           color: Color(0xFFE23030),
           child: Column(
             children: [
@@ -67,7 +55,7 @@ class _SignState extends State<Sign> {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(
-                                top: 10, left: 50, right: 50, bottom: 20),
+                                top: 30, left: 50, right: 50, bottom: 20),
                             child: Container(
                               height: 48,width: 250,
                               child: TextFormField(
@@ -77,13 +65,13 @@ class _SignState extends State<Sign> {
                                   prefixIcon:
                                   DropdownButton<String>(
                                     value: dropdownValue,
-                                    // style: const TextStyle(color: Colors.blue),
+                                    style: const TextStyle(color: Colors.blue),
                                     onChanged: (String? newValue) {
                                       setState(() {
                                         dropdownValue = newValue!;
                                       });
                                     },
-                                    items: <String>["+91",'+02']
+                                    items: <String>["+91",'+971','999','243','+004']
                                         .map<DropdownMenuItem<String>>((String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
@@ -95,54 +83,59 @@ class _SignState extends State<Sign> {
                                   fillColor: Colors.white,
                                   hintText: "Enter Your Cell Number +",
                                   enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(50),
+                                      borderRadius: BorderRadius.circular(40),
                                       borderSide:
-                                          BorderSide(color: Colors.black12)),
+                                      BorderSide(color: Colors.black12)),
                                   focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(50),
+                                      borderRadius: BorderRadius.circular(40),
                                       borderSide:
-                                          BorderSide(color: Colors.black12)),
+                                      BorderSide(color: Colors.black12)),
                                   contentPadding: const EdgeInsets.all(8.0),
                                 ),
-                                validator: (value) {
-                                  if (value!.length == 10) {
-                                    return null;
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return "Please Enter Phone Number";
+                                    }
+                                    else if (value.length >10 ){
+                                      return "Please Enter Phone Number Lessthen 10 or 10";
+                                    }
                                   }
-                                },
                               ),
                             ),
                           ),
-                          Text("OR"),
-                          Divider(
-                            thickness: 1,
-                          ),
-                          Column(
+                          Row(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 10, left: 50, right: 50),
-                                child: TextFormField(
-                                  textAlign: TextAlign.center,
-                                  decoration: InputDecoration(
-                                    prefixIcon: Icon(Icons.email),
-                                    fillColor: Colors.white,
-                                    hintText: "Enter Your Email",
-                                    enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(50),
-                                        borderSide:
-                                            BorderSide(color: Colors.black12)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(50),
-                                        borderSide:
-                                            BorderSide(color: Colors.black12)),
-                                    contentPadding: const EdgeInsets.all(8.0),
-                                  ),
-                                  validator: (input) => input!.ValidEmail()
-                                      ? null
-                                      : "Please enter valid email address",
-                                ),
+                              Expanded(
+                                  child: Divider(thickness: 2,)
                               ),
+                              Text(" OR "),
+                              Expanded(
+                                  child: Divider(thickness: 2,))
                             ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10, left: 50, right: 50),
+                            child: TextFormField(
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.email),
+                                fillColor: Colors.white,
+                                hintText: "Enter Your Email",
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(50),
+                                    borderSide:
+                                        BorderSide(color: Colors.black12)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(50),
+                                    borderSide:
+                                        BorderSide(color: Colors.black12)),
+                                contentPadding: const EdgeInsets.all(8.0),
+                              ),
+                              validator: (input) => input!.ValidEmail()
+                                  ? null
+                                  : "Please enter valid email address",
+                            ),
                           ),
                           SizedBox(
                             height: 20,

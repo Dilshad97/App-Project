@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pervezbhai/auth/Sign_Up.dart';
 
 
 import 'OTP_Login.dart';
 import 'ForgetPassword.dart';
-import 'TextField.dart';
+import '../widget/Customer_Textfield/TextField.dart';
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -119,21 +118,5 @@ class _LoginState extends State<Login> {
             ),
           ),
         ));
-  }
-}
-
-
-extension EmailValidator on String {
-  bool isValidEmail() {
-    return RegExp(
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-        .hasMatch(this);
-  }
-}
-extension PasswordValidator on String {
-  bool isValidPassword() {
-    return RegExp(
-        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
-        .hasMatch(this);
   }
 }

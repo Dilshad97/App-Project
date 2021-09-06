@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pervezbhai/Dashbord/Home_Page.dart';
-import 'package:pervezbhai/Dashbord/account.dart';
-import 'package:pervezbhai/auth/login.dart';
+import 'package:pervezbhai/Screen/Home_Page.dart';
+import 'package:pervezbhai/Screen/account.dart';
+import 'package:pervezbhai/Login/login.dart';
 import 'package:share/share.dart';
 
 
-import '../Dashbord/cart.dart';
+import '../Screen/cart.dart';
 
 class DrawerFUn extends StatefulWidget {
   const DrawerFUn({Key? key}) : super(key: key);
