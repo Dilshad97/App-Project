@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pervezbhai/Screen/Home_Page.dart';
-import 'package:pervezbhai/Screen/track.dart';
-
-import '../Screen/account.dart';
-import '../Screen/cart.dart';
+import 'package:pervezbhai/Customer/Screens/Account_Page.dart';
+import 'package:pervezbhai/Customer/Screens/Cart_Page.dart';
+import 'package:pervezbhai/Customer/Screens/Home_Page.dart';
+import 'package:pervezbhai/Customer/Screens/Track_Page.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);
@@ -16,7 +15,7 @@ class _NavBarState extends State<NavBar> {
   int _selectedIndex = 0;
 
   static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     Home(),
     Track(),

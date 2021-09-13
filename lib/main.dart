@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'Splace_Screen.dart';
+import 'Splash_Screen.dart';
 
 void main() {
   runApp(MyApp(
