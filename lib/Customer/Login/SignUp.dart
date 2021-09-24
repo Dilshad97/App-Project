@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pervezbhai/Customer/Login/Login.dart';
 import 'package:pervezbhai/Customer/Login/SignUpDetails.dart';
-import 'package:pervezbhai/Customer/Screens/Home_Page.dart';
-
-import 'Forget_Password.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -14,7 +12,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-
+  final _FormKey= GlobalKey<FormState>();
 
   bool _loading = false;
 
@@ -30,10 +28,37 @@ class _SignUpState extends State<SignUp> {
       _loading = false;
     });
   }
+  TextEditingController FName = TextEditingController();
+  TextEditingController Lname = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController cnfmpassword = TextEditingController();
+  TextEditingController mNumber = TextEditingController();
+  TextEditingController zipcode = TextEditingController();
+  TextEditingController dob = TextEditingController();
 
+  late SharedPreferences logindata;
 
+  late bool newuser;
 
-  final _FormKey= GlobalKey<FormState>();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    check_if_already_login();
+  }
+
+  void check_if_already_login() async {
+    logindata = await SharedPreferences.getInstance();
+
+    newuser = (logindata.getBool('login') ?? true);
+    print(newuser);
+    if (newuser == false) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const SignUpDetails()));
+    }
+  }
+
 
   // ScrollController _ctr =ScrollController();
   @override
@@ -57,7 +82,6 @@ class _SignUpState extends State<SignUp> {
               child: Column(
                 children: [
                   Image.asset("assets/images/Logo.png",height: 140),
-
                   Column(
                     children: [
                       Container(
@@ -69,189 +93,136 @@ class _SignUpState extends State<SignUp> {
                           borderRadius:
                           BorderRadius.vertical(top: Radius.circular(42)),
                         ),
-                        child: Form(
-                          key: _FormKey,
-                          child: Column(
-                            children: [
-                              Text(
-                                "SignUp",
-                                style: TextStyle(
-                                    color: Color(0xFFE23030),
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 18,
-                                  left: 23,
-                                  right: 23,
-                                ),
-                                child: TextFormField(
-                                    decoration: InputDecoration(hintText: "First Name"),
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return "Please Enter First Name";
-                                      };
-                                    }),
+                        child: Column(
+                          children: [
+                            Text(
+                              "SignUp",
+                              style: TextStyle(
+                                  color: Color(0xFFE23030),
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold),
+                            ),
 
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 23, right: 23, top: 3),
-                                child: TextFormField(
-                                    decoration: InputDecoration(hintText: "Last Name"),
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return "Please Enter Last Name";
-                                      };
-                                    }
-
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 23, right: 23, top: 3),
-                                child: TextFormField(
-                                    decoration: InputDecoration(hintText: "Email"),
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return "Please Enter Email";
-                                      };
-                                    }
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 23, right: 23, top: 3),
-                                child: TextFormField(
-                                    decoration: InputDecoration(hintText: "Password"),
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return "Please Enter Password";
-                                      };
-                                    }
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 23, right: 23, top: 3),
-                                child:TextFormField(
-                                    keyboardType: TextInputType.number, // Only numbers can be entere
-                                    decoration:
-                                    InputDecoration(hintText: "Cell Number",
-
-                                    ),
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return "Please Enter Phone Number";
-                                      }
-                                      else if (value.length <10 ){
-                                        return "Please Enter Phone Number Lessthen 10 or 10";
-                                      }
-                                    }
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 23, right: 23, top: 3),
-                                child: TextFormField(
-                                    decoration: InputDecoration(hintText: "Zip code"),
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return "Please Enter Zip Code";
-                                      };
-                                    }
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  _onLoading();
-                                  setState(() {
-                                    // if (_FormKey.currentState!.validate())
-                                    {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpDetails()));
-                                    }
-                                  });
-
-
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  height: 45,
-                                  width: 220,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFFE23030),
-                                    borderRadius: BorderRadius.circular(40),
-                                  ),
-                                  child: Text(
-                                    "SIGNUP",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Text(
-                                "Or Sign Up with",
-                                style: TextStyle(color: Colors.black45),
-                              ),
-                              Container(
-                                padding:
-                                EdgeInsets.only(top: 8, left: 60, right: 60),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            Padding(
+                              padding: const EdgeInsets.only( left: 23, right: 23, top: 3),
+                              child: Form(
+                                key: _FormKey,
+                                child: Column(
                                   children: [
-                                    InkWell(
-                                        onTap: () {},
-                                        child: Image.asset(
-                                            "assets/images/Group -1.png")),
-                                    InkWell(
-                                        onTap: () {},
-                                        child: Image.asset(
-                                            "assets/images/Group -2.png")),
-                                    InkWell(
-                                        onTap: () {},
-                                        child: Image.asset(
-                                            "assets/images/Group 9642.png"))
+                                    buildTextFormField("First Name",FName),
+                                    buildTextFormField("Last Name",Lname),
+                                    buildTextFormField("Dob",dob),
+                                    buildTextFormField("First Email",email),
+                                    buildTextFormField("First Password",password),
+                                    buildTextFormField("First Confirm Password",cnfmpassword),
+                                    buildTextFormField("First Phone Numbber",mNumber),
+                                    buildTextFormField("First Zip Code",zipcode),
                                   ],
                                 ),
                               ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              InkWell(
-                                onTap: (){},
-                                child: Text(
-                                  "Already have an account? ",
-                                  style: TextStyle(
-                                      color: Color(0xFFE23030),
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                              SizedBox(height: 20,),
-                              InkWell(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()));
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                _onLoading();
+                                setState(()
+                                  // if (_FormKey.currentState!.validate())
+                                  {
+                                    String First_name = FName.text;
+                                    String Last_name = Lname.text;
+                                    String Email = email.text;
+                                    String Mob_Number = mNumber.text;
+                                    String Zip_code = zipcode.text;
+                                    String Date_of_Birth = dob.text;
 
-                                },
-                                child: Text(
-                                  "SIGN IN",
-                                  style: TextStyle(
-                                      color: Color(0xFFE23030),
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
+                                    if(First_name.isNotEmpty && Date_of_Birth.isNotEmpty&&Last_name.isNotEmpty && Email.isNotEmpty&&Mob_Number.isNotEmpty&&Zip_code.isNotEmpty){
+                                      print("Success");
+                                      logindata.setString('First_name', First_name);
+                                      logindata.setString('Last_name', Last_name);
+                                      logindata.setString('Email', Email);
+                                      logindata.setString('Mob_Number', Mob_Number);
+                                      logindata.setString('Zip_code', Zip_code);
+                                      logindata.setString('Date_of_Birth', Date_of_Birth);
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpDetails()));
+                                    }
+                                });
+
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                height: 45,
+                                width: 220,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFE23030),
+                                  borderRadius: BorderRadius.circular(40),
                                 ),
-                              )
-                            ],
-                          ),
+                                child: Text(
+                                  "SIGNUP",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              "Or Sign Up with",
+                              style: TextStyle(color: Colors.black45),
+                            ),
+                            Container(
+                              padding:
+                              EdgeInsets.only(top: 8, left: 60, right: 60),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  InkWell(
+                                      onTap: () {},
+                                      child: Image.asset(
+                                          "assets/images/Group -1.png")),
+                                  InkWell(
+                                      onTap: () {},
+                                      child: Image.asset(
+                                          "assets/images/Group -2.png")),
+                                  InkWell(
+                                      onTap: () {},
+                                      child: Image.asset(
+                                          "assets/images/Group 9642.png"))
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            InkWell(
+                              onTap: (){},
+                              child: Text(
+                                "Already have an account? ",
+                                style: TextStyle(
+                                    color: Color(0xFFE23030),
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                            SizedBox(height: 20,),
+                            InkWell(
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()));
+
+                              },
+                              child: Text(
+                                "SIGN IN",
+                                style: TextStyle(
+                                    color: Color(0xFFE23030),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ],
@@ -261,6 +232,20 @@ class _SignUpState extends State<SignUp> {
             ),
           ),
         ));
+  }
+
+  TextFormField buildTextFormField( String hint ,TextEditingController controller) {
+    return TextFormField(
+        controller:controller,
+        decoration: InputDecoration(
+            hintText: hint
+        ),
+        validator: (value) {
+          if (value!.isEmpty)
+          {
+            return "Please Enter First Name";
+          };
+        });
   }
 }
 

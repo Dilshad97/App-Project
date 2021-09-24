@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pervezbhai/Customer/Login/Login.dart';
@@ -8,7 +7,6 @@ import 'package:pervezbhai/Customer/Auth/Google_Auth.dart';
 import 'package:pervezbhai/Customer/Screens/Home_Page.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 class DrawerFUn extends StatefulWidget {
   const DrawerFUn({Key? key}) : super(key: key);
@@ -21,22 +19,25 @@ class _DrawerFUnState extends State<DrawerFUn> {
 
   late SharedPreferences logindata;
   String ?email;
-
+  String ?First_name;
+  String ?Last_name;
+  String ?Email;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     initial();
   }
-
   void initial() async {
     logindata = await SharedPreferences.getInstance();
     setState(() {
       email = logindata.getString('email');
+      Email = logindata.getString('Email');
+      First_name = logindata.getString('First_name');
+      Last_name = logindata.getString('Last_name');
+
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -56,10 +57,10 @@ class _DrawerFUnState extends State<DrawerFUn> {
                   color: Color(0xFFE23030),
                   // image: DecorationImage(image: NetworkImage(imageUrl,))
                 ),
-                accountName: Text( '$name',style:TextStyle(fontSize: 20)),
-                accountEmail: Text('$email'),
+                accountName: Text( '$First_name $Last_name',style:TextStyle(fontSize: 20)),
+                accountEmail: Text('$Email'),
                 currentAccountPicture: CircleAvatar(
-                  backgroundImage: NetworkImage(imageUrl),
+                  // backgroundImage: NetworkImage(imageUrl),
 
                 ),
               ),
