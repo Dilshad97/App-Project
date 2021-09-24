@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pervezbhai/Customer/Login/Login.dart';
+import 'package:pervezbhai/Customer/Login/SignUpDetails.dart';
 import 'package:pervezbhai/Customer/Screens/Home_Page.dart';
 
 import 'Forget_Password.dart';
@@ -169,9 +170,9 @@ class _SignUpState extends State<SignUp> {
                                 onTap: () {
                                   _onLoading();
                                   setState(() {
-                                    if (_FormKey.currentState!.validate())
+                                    // if (_FormKey.currentState!.validate())
                                     {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUpDetails()));
                                     }
                                   });
 

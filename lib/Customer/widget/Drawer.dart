@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:pervezbhai/Customer/Login/Login.dart';
 import 'package:pervezbhai/Customer/Screens/Account_Page.dart';
 import 'package:pervezbhai/Customer/Screens/Cart_Page.dart';
+import 'package:pervezbhai/Customer/Auth/Google_Auth.dart';
 import 'package:pervezbhai/Customer/Screens/Home_Page.dart';
-
 import 'package:share/share.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class DrawerFUn extends StatefulWidget {
@@ -18,6 +18,26 @@ class DrawerFUn extends StatefulWidget {
 }
 
 class _DrawerFUnState extends State<DrawerFUn> {
+
+  late SharedPreferences logindata;
+  String ?email;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initial();
+  }
+
+  void initial() async {
+    logindata = await SharedPreferences.getInstance();
+    setState(() {
+      email = logindata.getString('email');
+    });
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -34,14 +54,13 @@ class _DrawerFUnState extends State<DrawerFUn> {
 
                 decoration: BoxDecoration(
                   color: Color(0xFFE23030),
+                  // image: DecorationImage(image: NetworkImage(imageUrl,))
                 ),
-                accountName: Text("Your Name"),
-                accountEmail: Text("example@gmail.com"),
+                accountName: Text( '$name',style:TextStyle(fontSize: 20)),
+                accountEmail: Text('$email'),
                 currentAccountPicture: CircleAvatar(
-                  child: Text(
-                    "D",
-                    style: TextStyle(fontSize: 40),
-                  ),
+                  backgroundImage: NetworkImage(imageUrl),
+
                 ),
               ),
             ),
@@ -118,7 +137,10 @@ class _DrawerFUnState extends State<DrawerFUn> {
               ),
               title: Text("Logout"),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()));
+                signOutGoogle();
+                // Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()));
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {return Login();}), ModalRoute.withName('/'));
+
               },
             ),
 

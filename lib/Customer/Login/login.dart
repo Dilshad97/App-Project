@@ -1,13 +1,12 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pervezbhai/Customer/Login/Forget_Password.dart';
+import 'package:pervezbhai/Customer/Auth/Google_Auth.dart';
+import 'package:pervezbhai/Customer/Login/SignUp.dart';
 import 'package:pervezbhai/Customer/Screens/Account_Page.dart';
 import 'package:pervezbhai/Customer/Widget/Buttons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-
-
-
+import 'Forget_Password.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -18,9 +17,9 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool _loading = false;
-  bool _flag = true;
-  bool isPassword = true;
-
+  bool _flag = false;
+  bool showPassword = false;
+  final formKey = GlobalKey<FormState>();
 
   void _onLoading() {
     setState(() {
@@ -34,6 +33,33 @@ class _LoginState extends State<Login> {
       _loading = false;
     });
   }
+
+  TextEditingController emailcntrl = TextEditingController();
+  TextEditingController mobilecntrl = TextEditingController();
+
+  late SharedPreferences logindata;
+
+  late bool newuser;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    check_if_already_login();
+  }
+
+  void check_if_already_login() async {
+    logindata = await SharedPreferences.getInstance();
+
+    newuser = (logindata.getBool('login') ?? true);
+    print(newuser);
+    if (newuser == false) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const NavBar()));
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +106,6 @@ class _LoginState extends State<Login> {
                                   child: Column(
                                     children: [
                                       Container(
-
                                           decoration: BoxDecoration(
                                               color:
                                               !_flag ? Colors.red : Colors.grey,
@@ -130,33 +155,46 @@ class _LoginState extends State<Login> {
                               ],
                             ),
                             if (_flag)
-                              _loading?CircularProgressIndicator(): buildContainerCustomer(),
-                            if (!_flag) _loading?CircularProgressIndicator():buildContainerTransporter(),
+                              _loading
+                                  ? CircularProgressIndicator()
+                                  : buildContainerCustomer(),
+                            if (!_flag)
+                              _loading
+                                  ? CircularProgressIndicator()
+                                  : buildContainerTransporter(),
                             SizedBox(
                               height: 10,
                             ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(30)),
-                              height: 50,
-                              width: 230,
-                              child: Center(
-                                  child: TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>_flag? Account():NavBar()));
-                                    },
+                            InkWell(
+                              onTap:  ()  {
+                                String email = emailcntrl.text;
+                                 if (email.isNotEmpty && formKey.currentState!.validate()) {
+                                  print('Successful');
+                                  logindata.setString('email', email);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>_flag? Account():NavBar()));
+                                }
+                                 else {
+                                   print('unsucess');
+                                 }
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(30)),
+                                height: 50,
+                                width: 230,
+                                child: Center(
                                     child: Text(
                                       "Login",
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 28),
-                                    ),
-                                  )),
+                                    )),
+                              ),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -202,7 +240,7 @@ class _LoginState extends State<Login> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Sign()));
+                                          builder: (context) => SignUp()));
                                 },
                                 child: Text(
                                   "SignUp",
@@ -223,6 +261,7 @@ class _LoginState extends State<Login> {
         ));
   }
 
+//Google Auth Buttons
   Row buildRowIcon() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -231,7 +270,22 @@ class _LoginState extends State<Login> {
         SizedBox(
           width: 25,
         ),
-        Image.asset("assets/images/Group -2.png"),
+        InkWell(
+          child: Image.asset("assets/images/Group -2.png"),
+          onTap: () {
+            signInWithGoogle().then((result) {
+              if (result != null) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return _flag? Account():NavBar();
+                    },
+                  ),
+                );
+              }
+            });
+          },
+        ),
         SizedBox(
           width: 25,
         ),
@@ -243,17 +297,24 @@ class _LoginState extends State<Login> {
   Container buildContainerCustomer() {
     return Container(
       margin: EdgeInsets.only(top: 30),
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(left: 35, right: 35),
-            child: buildTextFormField(Icons.email, "Transporter Email", false, false),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 35, right: 35, top: 10),
-            child: buildTextFormField(Icons.lock, "Transporter Password", true, false),
-          ),
-        ],
+      child: Form(
+        key: formKey,
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 35, right: 35),
+              child: buildTextFormField(
+                  Icons.email, "Transporter Email", false, false, emailcntrl),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 35, right: 35, top: 10),
+              child: buildTextFormField(
+                  Icons.lock, "Transporter Password", true, false,mobilecntrl
+
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -261,30 +322,43 @@ class _LoginState extends State<Login> {
   Container buildContainerTransporter() {
     return Container(
       margin: EdgeInsets.only(top: 30),
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(left: 35, right: 35),
-            child: buildTextFormField(Icons.email, "Customer Email", false, false),
-          ),
-          Padding( padding: EdgeInsets.only(left: 35,right: 35,top: 10),
-            child: buildTextFormField(
-                Icons.lock, "Customer Password", true, false),
-          ),
-        ],
+      child: Form(
+        key: formKey,
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 35, right: 35),
+              child:
+              buildTextFormField(Icons.email, "Customer Email", false, true,emailcntrl),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 35, right: 35, top: 10),
+              child: buildTextFormField(
+                  Icons.lock, "Customer Password", true, false,mobilecntrl),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   TextFormField buildTextFormField(
-      IconData icon, String hintTxt, bool isPassword, bool isEmail) {
+      IconData icon, String hintTxt, bool _isPassword, bool isEmail,TextEditingController controller) {
     return TextFormField(
-      obscureText: isPassword,
+      obscureText:  _isPassword? showPassword : false,
       keyboardType: isEmail ? TextInputType.emailAddress : TextInputType.text,
-
+controller: controller,
       textAlign: TextAlign.center,
       decoration: InputDecoration(
         prefixIcon: Icon(icon),
+        suffixIcon: _isPassword?IconButton(
+          onPressed: () {
+            setState(() {
+              showPassword = !showPassword;
+            });
+          },
+          icon: Icon(Icons.visibility),
+        ):null,
         fillColor: Colors.white,
         hintText: hintTxt,
         enabledBorder: OutlineInputBorder(
@@ -295,9 +369,11 @@ class _LoginState extends State<Login> {
             borderSide: BorderSide(color: Colors.black12)),
         contentPadding: const EdgeInsets.all(8.0),
       ),
-
-      // validator: (kamini) => kamini!.isValidEmail() ? null : "Please enter valid email address",
+      validator: (value) {
+        if (value!.isEmpty) {
+          return "Enter Password";
+        }
+      },
     );
   }
-
 }
