@@ -48,6 +48,9 @@ class _LoginState extends State<Login> {
     check_if_already_login();
   }
 
+
+
+
   void check_if_already_login() async {
     logindata = await SharedPreferences.getInstance();
 
@@ -167,10 +170,11 @@ class _LoginState extends State<Login> {
                             ),
                             InkWell(
                               onTap:  ()  {
-                                String email = emailcntrl.text;
-                                 if (email.isNotEmpty && formKey.currentState!.validate()) {
+
+                                String Email = emailcntrl.text;
+                                 if (Email.isNotEmpty && formKey.currentState!.validate()) {
                                   print('Successful');
-                                  logindata.setString('email', email);
+                                  logindata.setString('Email', Email);
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(

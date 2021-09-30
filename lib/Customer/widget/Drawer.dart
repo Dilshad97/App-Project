@@ -1,3 +1,9 @@
+
+
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pervezbhai/Customer/Login/Login.dart';
@@ -22,12 +28,17 @@ class _DrawerFUnState extends State<DrawerFUn> {
   String ?First_name;
   String ?Last_name;
   String ?Email;
+  String ?img;
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     initial();
+
   }
+
   void initial() async {
     logindata = await SharedPreferences.getInstance();
     setState(() {
@@ -35,24 +46,29 @@ class _DrawerFUnState extends State<DrawerFUn> {
       Email = logindata.getString('Email');
       First_name = logindata.getString('First_name');
       Last_name = logindata.getString('Last_name');
+      print(Last_name);
+      img=logindata.getString('dilshad');
+      print('file path get to shared preference :  $img');
+
+       // String? imagess = logindata.getString("image");
+       // print('imagess $imagess');
+
 
     });
   }
 
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       child: Drawer(
-
         child: ListView(
-
           children: [
             InkWell(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>Account()));
               },
               child: UserAccountsDrawerHeader(
-
                 decoration: BoxDecoration(
                   color: Color(0xFFE23030),
                   // image: DecorationImage(image: NetworkImage(imageUrl,))
@@ -60,9 +76,13 @@ class _DrawerFUnState extends State<DrawerFUn> {
                 accountName: Text( '$First_name $Last_name',style:TextStyle(fontSize: 20)),
                 accountEmail: Text('$Email'),
                 currentAccountPicture: CircleAvatar(
-                  // backgroundImage: NetworkImage(imageUrl),
+                   backgroundImage:FileImage(File(img!)),
+                  // child: Image.file(File(img!)),
 
-                ),
+                  radius: 100.0,
+
+                )
+
               ),
             ),
             InkWell(
@@ -84,7 +104,7 @@ class _DrawerFUnState extends State<DrawerFUn> {
               child: ListTile(
                 leading: Icon(Icons.shopping_cart),
 
-                title: Text("Buy Again"),
+               title: Text("Buy Again"),
               ),
             ),
             InkWell(
@@ -137,9 +157,10 @@ class _DrawerFUnState extends State<DrawerFUn> {
                 color: Colors.black,
               ),
               title: Text("Logout"),
-              onTap: () {
+              onTap: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.clear();
                 signOutGoogle();
-                // Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()));
                 Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {return Login();}), ModalRoute.withName('/'));
 
               },

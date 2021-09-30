@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pervezbhai/Customer/Model/Model.dart';
 import 'package:pervezbhai/Customer/Widget/Drawer.dart';
+import 'package:provider/provider.dart';
 
 
 class Cart extends StatefulWidget {
@@ -30,6 +32,16 @@ class _CartState extends State<Cart> {
             backgroundColor: Color(0xFFE23030),
           ),
           endDrawer: DrawerFUn(),
+          body: Column(
+            children: [
+              Consumer<Model>(
+             builder: (context, Model, child) {
+               return  ListTile(title: Text(Model.name),
+               );
+
+             },)
+            ],
+          ),
           // bottomNavigationBar: NavBar(),
         ));
   }

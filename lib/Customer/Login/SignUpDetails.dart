@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pervezbhai/Customer/Widget/Buttons.dart';
@@ -13,13 +15,14 @@ class SignUpDetails extends StatefulWidget {
 
 class _SignUpDetailsState extends State<SignUpDetails> {
   File? imageFile;
-  String? dropdownValue;
+  String? dropdownValue ;
   TextEditingController addresscntrl = TextEditingController();
   TextEditingController shippingaddrsscntrl = TextEditingController();
 
   late SharedPreferences logindata;
 
   late bool newuser;
+
 
   @override
   void initState() {
@@ -38,7 +41,6 @@ class _SignUpDetailsState extends State<SignUpDetails> {
           context, MaterialPageRoute(builder: (context) => const NavBar()));
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -129,11 +131,19 @@ class _SignUpDetailsState extends State<SignUpDetails> {
                                 onPressed: () {
                                   String Address = addresscntrl.text;
                                   String Shipping_Add = shippingaddrsscntrl.text;
+                                  String photo = imageFile!.path;
+                                  print('image path save to shared preference    :$photo');
                                   if(
                                   Address.isNotEmpty&&Shipping_Add.isNotEmpty
                                   )
-                                    logindata.setString(Address, Address);
-                                    logindata.setString(Shipping_Add, Shipping_Add);
+                                    logindata.setBool('logout', false);
+                                    logindata.setString('PAddress', Address);
+                                    logindata.setString('delevery address', Shipping_Add);
+                                    logindata.setString('dilshad', photo);
+                                    print(logindata);
+                                    // var set= logindata.setString('image',imageB64!);
+                                    // print('here we set the path of image$set');
+
 
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>NavBar()));
                                 },
@@ -185,21 +195,29 @@ class _SignUpDetailsState extends State<SignUpDetails> {
 
   /// Get from gallery
   _getFromGallery() async {
-    PickedFile? pickedFile = await ImagePicker().getImage(
+    XFile? pickedFile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
     );
     if (pickedFile != null) {
+      print("form camera");
       setState(() {
         imageFile = File(pickedFile.path);
+        print('Image parth$imageFile');
+        // List<int> imageBytes = imageFile!.readAsBytesSync();
+        //  imageB64 = base64Encode(imageBytes);
+        // Uint8List decoded = base64Decode(imageB64!);
+        // print('Image parth$imageB64');
+        // print('Dilshad $decoded');
+        // print('Image parth $decoded');
       });
     }
   }
 
   /// Get from Camera
   _getFromCamera() async {
-    PickedFile? pickedFile = await ImagePicker().getImage(
+    XFile? pickedFile = await ImagePicker().pickImage(
       source: ImageSource.camera,
       maxWidth: 1800,
       maxHeight: 1800,

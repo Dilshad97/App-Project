@@ -48,6 +48,7 @@ class _SignUpState extends State<SignUp> {
     check_if_already_login();
   }
 
+
   void check_if_already_login() async {
     logindata = await SharedPreferences.getInstance();
 
@@ -57,7 +58,14 @@ class _SignUpState extends State<SignUp> {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const SignUpDetails()));
     }
+
+
+
   }
+
+
+
+
 
 
   // ScrollController _ctr =ScrollController();
@@ -139,6 +147,7 @@ class _SignUpState extends State<SignUp> {
 
                                     if(First_name.isNotEmpty && Date_of_Birth.isNotEmpty&&Last_name.isNotEmpty && Email.isNotEmpty&&Mob_Number.isNotEmpty&&Zip_code.isNotEmpty){
                                       print("Success");
+                                      logindata.setBool("logout", false);
                                       logindata.setString('First_name', First_name);
                                       logindata.setString('Last_name', Last_name);
                                       logindata.setString('Email', Email);

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pervezbhai/Customer/Auth/Google_Auth.dart';
 import 'package:pervezbhai/Customer/Widget/Drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,7 +14,31 @@ class Account extends StatefulWidget {
   _AccountState createState() => _AccountState();
 }
 
+@override
 class _AccountState extends State<Account> {
+
+  late SharedPreferences logindata;
+  File? imageFile;
+  String? image;
+  String? name;
+  @override
+
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initial();
+  }
+
+
+  void initial()async{
+    logindata =await SharedPreferences.getInstance();
+    setState(() {
+      image=logindata.getString('dilshad');
+      name= logindata.getString('First_name');
+
+
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -45,24 +72,46 @@ class _AccountState extends State<Account> {
                     Stack(
                       children: [
                         CircleAvatar(
-                          radius: 45.0,
-                          backgroundImage: NetworkImage(imageUrl),
+                          radius: 80,
+                          backgroundImage:FileImage(File(image!)),
+
+                          // backgroundImage: NetworkImage(imageUrl),
                           backgroundColor: Colors.transparent,
                         ),
                         Positioned(
-                            left: 65,
-                            top: 50,
-                            child: Icon(
-                              Icons.camera_alt_outlined,
-                              color: Colors.white,
-                            ))
+                            left: 130,
+                            top: 90,
+                            child: IconButton(onPressed: () {
+                            showModalBottomSheet(context: context, builder: (context) {
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  TextButton(onPressed: () {
+                                    GalaryImage();
+                                  }, child: Text("Image From Galary")),
+                                  TextButton(onPressed: () {
+                                    CameraImage();
+                                  }, child: Text("Image From Camera")),
+
+                                ],
+                              );
+
+                            },);
+
+                            },
+                              icon:Icon(Icons.camera_alt_outlined,
+                                color: Colors.blue,
+                                size: 33,)
+                            )
+
+                        )
                       ],
                     ),
                     SizedBox(
                       height: 8,
                     ),
                     Text(
-                      name,
+                      '$name',
                       style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
@@ -109,6 +158,7 @@ class _AccountState extends State<Account> {
             ],
           ),
         ));
+
   }
 
 // List tile Buit function.....
@@ -121,7 +171,27 @@ class _AccountState extends State<Account> {
       ),
     );
   }
+
+   GalaryImage() async{
+    XFile? pickedfile= await ImagePicker().pickImage(source: ImageSource.gallery);
+    if(pickedfile !=null){
+      setState(() {
+        imageFile=File(pickedfile.path);
+      });
+    }
+
+  }
+
+   CameraImage()async {
+    XFile? pickedfile=await ImagePicker().pickImage(source: ImageSource.camera);
+    if(pickedfile !=null){
+      setState(() {
+        imageFile=File(pickedfile.path);
+      });
+    }
+  }
 }
+
 
 // Personal Class
 
@@ -142,6 +212,7 @@ class _Perosnal_InfoState extends State<Perosnal_Info> {
   String ?Email;
   String ?Mob_Number;
   String ?Date_of_Birth;
+  String ?image;
   @override
   void initState() {
     // TODO: implement initState
@@ -157,6 +228,7 @@ class _Perosnal_InfoState extends State<Perosnal_Info> {
       Last_name = logindata.getString('Last_name');
       Mob_Number = logindata.getString('Mob_Number');
       Date_of_Birth = logindata.getString('Date_of_Birth');
+      image=logindata.getString('dilshad');
     });
   }
 
@@ -176,11 +248,14 @@ class _Perosnal_InfoState extends State<Perosnal_Info> {
                     Container(
                       height: MediaQuery.of(context).size.height / 4,
                       width: MediaQuery.of(context).size.width,
-                      color: Colors.red,
-                      child: Image.network(
-                        imageUrl,
-                        fit: BoxFit.cover,
-                      ),
+                      // color: Colors.red,
+
+                      child: Image.file(File(image!)),
+
+                      // child: Image.network(
+                      //   imageUrl,
+                      //   fit: BoxFit.cover,
+                      // ),
                     ),
                     Positioned(
                         right: 15,

@@ -137,167 +137,175 @@ class _HomeState extends State<Home> {
                   height: 20,
                 ),
 
-                ListView.builder(
-                  controller: _controller,
-                  itemCount: modelData.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Card(
-                        elevation: 6,
-                        child: Row(
-                          children: [
-                            Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  modelData[index].pname,
-                                  style: TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 23,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(modelData[index].name,
-                                    style: TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold)),
-                                Container(
-                                    width: 250,
-                                    child: Text(modelData[index].desc,
-                                        style: TextStyle(
-                                            color: Colors.black38,
-                                            fontSize: 14,
-                                            fontWeight:
-                                            FontWeight.bold))),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.only(left: 20),
-                                    child: Text(modelData[index].price,
-                                        style: TextStyle(
-                                            color: Colors.redAccent,
-                                            fontSize: 20,
-                                            fontWeight:
-                                            FontWeight.bold))),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        builder: (context){
-                                          return Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Image.network(
-                                                modelData[index].images,),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 50, right: 50),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                        modelData[index].pname),
-                                                    Text(
-                                                        modelData[index].price),
-                                                  ],
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 20,),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 30, right: 30),
-                                                child:
-                                                Text(modelData[index].desc),
-                                              ),
-                                              SizedBox(height: 10),
-
-                                              ElevatedButton(
-                                                  style: ElevatedButton.styleFrom(
-                                                      primary: Colors.red
-                                                  ),
-                                                  onPressed: () {
-
-                                                  }, child: Text("Checkout")),
-                                              SizedBox(height: 10),
-
-                                            ],
-                                          );
-                                        }
-                                    );
-                                  } ,
-                                  child: Container(
-                                      color: Colors.white30,
-                                      height: 100,
-                                      width: 100,
-                                      child: Image.network(
-                                        modelData[index].images,
-                                      )),
-                                ),
-
-                                Container(
-                                  width: 90,
-                                  height: 40,
-                                  padding: EdgeInsets.all(3),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.red),
-                                  child: Row(
-                                    children: [
-                                      InkWell(
-                                          onTap: minus,
-                                          child: Icon(
-                                            Icons.remove,
-                                            color: Colors.white,
-                                            size: 22,
-                                          )),
-                                      SizedBox(width: 5,),
-                                      Container(
-                                        margin: EdgeInsets.symmetric(horizontal: 3),
-                                        padding:
-                                        EdgeInsets.symmetric(horizontal: 3, vertical: 2),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(3),
-                                            color: Colors.white),
-                                        child: Text(
-                                          " $increment",
-                                          style: TextStyle(color: Colors.black, fontSize: 16),
-                                        ),
-                                      ),
-                                      SizedBox(width: 5,),
-
-                                      InkWell(
-                                          onTap:add,
-                                          child: Icon(
-                                            Icons.add,
-                                            color: Colors.white,
-                                            size: 22,
-                                          )),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 10,)
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                buildListView(),
               ]),
             )));
+  }
+
+  ListView buildListView() {
+    return ListView.builder(
+                controller: _controller,
+                itemCount: modelData.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Card(
+                      elevation: 6,
+                      child: Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                modelData[index].pname,
+                                style: TextStyle(
+                                    color: Colors.black87,
+                                    fontSize: 23,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(modelData[index].name,
+                                  style: TextStyle(
+                                      color: Colors.black54,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold)),
+                              Container(
+                                  width: 250,
+                                  child: Text(modelData[index].desc,
+                                      style: TextStyle(
+                                          color: Colors.black38,
+                                          fontSize: 14,
+                                          fontWeight:
+                                          FontWeight.bold))),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 20),
+                                  child: Text(modelData[index].price,
+                                      style: TextStyle(
+                                          color: Colors.redAccent,
+                                          fontSize: 20,
+                                          fontWeight:
+                                          FontWeight.bold))),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  buildShowModalBottomSheet(context, index);
+                                } ,
+                                child: Container(
+                                    color: Colors.white30,
+                                    height: 100,
+                                    width: 100,
+                                    child: Image.network(
+                                      modelData[index].images,
+                                    )),
+                              ),
+
+                              Container(
+                                width: 90,
+                                height: 40,
+                                padding: EdgeInsets.all(3),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.red),
+                                child: Row(
+                                  children: [
+                                    InkWell(
+                                        onTap: minus,
+                                        child: Icon(
+                                          Icons.remove,
+                                          color: Colors.white,
+                                          size: 22,
+                                        )),
+                                    SizedBox(width: 5,),
+                                    Container(
+                                      margin: EdgeInsets.symmetric(horizontal: 3),
+                                      padding:
+                                      EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(3),
+                                          color: Colors.white),
+                                      child: Text(
+                                        " $increment",
+                                        style: TextStyle(color: Colors.black, fontSize: 16),
+                                      ),
+                                    ),
+                                    SizedBox(width: 5,),
+
+                                    InkWell(
+                                        onTap:add,
+                                        child: Icon(
+                                          Icons.add,
+                                          color: Colors.white,
+                                          size: 22,
+                                        )),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 10,)
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+  }
+
+  Future<dynamic> buildShowModalBottomSheet(BuildContext context, int index) {
+    return showModalBottomSheet(
+                                    context: context,
+                                    builder: (context){
+                                      return Column(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Image.network(
+                                            modelData[index].images,),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 50, right: 50),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                              children: [
+                                                Text(
+                                                    modelData[index].pname),
+                                                Text(
+                                                    modelData[index].price),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 20,),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 30, right: 30),
+                                            child:
+                                            Text(modelData[index].desc),
+                                          ),
+                                          SizedBox(height: 10),
+
+                                          ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  primary: Colors.red
+                                              ),
+                                              onPressed: () {
+
+                                              }, child: Text("Checkout")),
+                                          SizedBox(height: 10),
+
+                                        ],
+                                      );
+                                    }
+                                );
   }
 }
